@@ -4,6 +4,7 @@ import { FileRoutes } from "@solidjs/start/router";
 import { Suspense, Show, createSignal, onMount } from "solid-js";
 import { supabase } from "~/lib/supabase";
 import type { User } from "@supabase/supabase-js";
+import PromoBanner from "~/components/PromoBanner";
 import "./app.css";
 
 export default function App() {
@@ -32,8 +33,11 @@ export default function App() {
         <MetaProvider>
           <Title>SampleVault - Premium Music Sample Packs</Title>
           
+          {/* Promo Banner */}
+          <PromoBanner />
+          
           {/* Header */}
-          <header class="header">
+          <header class="header sticky-header">
             <div class="header-inner">
               <a href="/" class="logo">
                 <div class="logo-icon">

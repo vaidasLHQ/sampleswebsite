@@ -1,93 +1,28 @@
 import { Title } from "@solidjs/meta";
-import { For } from "solid-js";
-
-const samplePacks = [
-  {
-    id: 1,
-    title: "Midnight Sessions",
-    category: "Lo-Fi Hip Hop",
-    description: "Warm vinyl textures, dusty drums, and soulful melodies for late-night production.",
-    samples: 156,
-    bpm: "70-90",
-    price: 49,
-    gradient: "sonic"
-  },
-  {
-    id: 2,
-    title: "Neon Streets",
-    category: "Synthwave",
-    description: "Retro-futuristic synths, punchy drums, and atmospheric pads from the 80s.",
-    samples: 203,
-    bpm: "100-128",
-    price: 59,
-    gradient: "neon"
-  },
-  {
-    id: 3,
-    title: "Desert Gold",
-    category: "World Fusion",
-    description: "Organic percussion, ethnic instruments, and earthy textures from around the globe.",
-    samples: 184,
-    bpm: "80-120",
-    price: 54,
-    gradient: "warm"
-  },
-  {
-    id: 4,
-    title: "Deep Space",
-    category: "Ambient",
-    description: "Ethereal soundscapes, cosmic textures, and otherworldly atmospheres.",
-    samples: 128,
-    bpm: "60-80",
-    price: 44,
-    gradient: "bass"
-  },
-  {
-    id: 5,
-    title: "Club Genesis",
-    category: "House",
-    description: "Driving beats, infectious grooves, and peak-time energy for the dancefloor.",
-    samples: 245,
-    bpm: "120-128",
-    price: 69,
-    gradient: "neon"
-  },
-  {
-    id: 6,
-    title: "Trap Kingdom",
-    category: "Trap",
-    description: "Hard-hitting 808s, crisp hi-hats, and melodic elements for modern production.",
-    samples: 312,
-    bpm: "130-160",
-    price: 79,
-    gradient: "sonic"
-  }
-];
-
-const features = [
-  {
-    icon: "⚡",
-    title: "Instant Download",
-    description: "Get your samples immediately after purchase. No waiting, start creating right away."
-  },
-  {
-    icon: "🎚️",
-    title: "100% Royalty Free",
-    description: "Use in any project, commercial or personal. No additional fees or credits required."
-  },
-  {
-    icon: "🎛️",
-    title: "DAW Compatible",
-    description: "Works with Ableton, FL Studio, Logic Pro, and every major DAW. WAV & AIFF formats."
-  },
-  {
-    icon: "🔄",
-    title: "Free Updates",
-    description: "Get new samples and variations added to packs you own. Lifetime access included."
-  }
-];
+import { For, createSignal, Show } from "solid-js";
+import SampleRow from "~/components/SampleRow";
+import { samples, sampleCategories } from "~/data/samples";
+import { features, testimonials } from "~/data/packs";
 
 export default function Home() {
+  const [selectedCategory, setSelectedCategory] = createSignal("Hip Hop");
+  const [playingSampleId, setPlayingSampleId] = createSignal<number | null>(null);
+  
+  const filteredSamples = () => {
+    if (selectedCategory() === "All") {
+      return samples;
+    }
+    return samples.filter(sample => sample.category === selectedCategory());
+  };
+
+  const handleSamplePlay = (sampleId: number) => {
+    if (playingSampleId() === sampleId) {
+      setPlayingSampleId(null);
+    } else {
+      setPlayingSampleId(sampleId);
+    }
+  };
+
   return (
     <main>
       <Title>SampleVault - Premium Music Sample Packs</Title>
@@ -99,16 +34,16 @@ export default function Home() {
         <div class="hero-content">
           <div class="hero-badge animate-fade-in-up">
             <span class="hero-badge-new">New</span>
-            <span>Trap Kingdom pack just dropped</span>
+            <span>Trap Kingdom pack just dropped • Metro Boomin</span>
           </div>
           
-          <h1 class="animate-fade-in-up delay-1">
-            Sounds that <em>inspire</em> your next hit.
+          <h1 class="hero-title animate-fade-in-up delay-1">
+            Discover premium samples from <em>industry-leading producers</em>
           </h1>
           
           <p class="hero-description animate-fade-in-up delay-2">
-            Premium sample packs crafted by Grammy-winning producers. 
-            Royalty-free, high-quality sounds for your next masterpiece.
+            Our catalog is stacked with samples from Grammy-winning producers and industry legends. 
+            Yours to flip, chop, and turn into your next banger.
           </p>
           
           <div class="hero-actions animate-fade-in-up delay-3">
@@ -116,7 +51,7 @@ export default function Home() {
               <svg class="btn-icon" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
                 <path d="M8 5.14v14l11-7-11-7z" fill="currentColor"/>
               </svg>
-              Browse Packs
+              Try Free Samples
             </a>
             <a href="/about" class="btn btn-secondary btn-large">
               Learn More
@@ -142,45 +77,42 @@ export default function Home() {
         </div>
       </section>
       
-      {/* Sample Packs Section */}
-      <section id="packs" class="packs-section">
-        <div class="section-header">
-          <h2>Featured Packs</h2>
-          <p>Hand-picked collections from our best-selling catalog</p>
+      {/* Sample Library Browser */}
+      <section id="samples" class="sample-library-section">
+        <div class="sample-library-header">
+          <h2>Sample Library</h2>
         </div>
         
-        <div class="packs-grid">
-          <For each={samplePacks}>
-            {(pack) => (
-              <article class="pack-card">
-                <div class={`pack-artwork ${pack.gradient}`}>
-                  <div class="play-button" />
-                  <div class="pack-waveform">
-                    <div class="wave-bar" />
-                    <div class="wave-bar" />
-                    <div class="wave-bar" />
-                    <div class="wave-bar" />
-                    <div class="wave-bar" />
-                    <div class="wave-bar" />
-                    <div class="wave-bar" />
-                    <div class="wave-bar" />
-                    <div class="wave-bar" />
-                    <div class="wave-bar" />
-                  </div>
-                </div>
-                <div class="pack-info">
-                  <span class="pack-category">{pack.category}</span>
-                  <h3 class="pack-title">{pack.title}</h3>
-                  <p class="pack-description">{pack.description}</p>
-                  <div class="pack-meta">
-                    <div class="pack-stats">
-                      <span>{pack.samples} samples</span>
-                      <span>{pack.bpm} BPM</span>
-                    </div>
-                    <span class="pack-price">${pack.price}</span>
-                  </div>
-                </div>
-              </article>
+        {/* Category Pills */}
+        <div class="sample-category-pills">
+          <For each={sampleCategories}>
+            {(category) => (
+              <button
+                class={`sample-pill ${selectedCategory() === category ? 'active' : ''}`}
+                onClick={() => setSelectedCategory(category)}
+              >
+                {category}
+              </button>
+            )}
+          </For>
+          <button class="sample-pill more-pill">
+            90+ more
+          </button>
+        </div>
+        
+        {/* Sample List */}
+        <div class="sample-list">
+          <For each={filteredSamples()}>
+            {(sample) => (
+              <SampleRow
+                artwork={sample.artwork}
+                filename={sample.filename}
+                packName={sample.packName}
+                bpm={sample.bpm}
+                key={sample.key}
+                isPlaying={playingSampleId() === sample.id}
+                onPlay={() => handleSamplePlay(sample.id)}
+              />
             )}
           </For>
         </div>
@@ -206,19 +138,42 @@ export default function Home() {
         </div>
       </section>
       
+      {/* Testimonials Section */}
+      <section class="testimonials-section">
+        <div class="section-header">
+          <h2>Trusted by Industry Legends</h2>
+          <p>See what top producers are saying about SampleVault</p>
+        </div>
+        
+        <div class="testimonials-grid">
+          <For each={testimonials}>
+            {(testimonial) => (
+              <div class="testimonial-card">
+                <div class="testimonial-quote">"{testimonial.quote}"</div>
+                <div class="testimonial-author">
+                  <strong>{testimonial.author}</strong>
+                  <span>{testimonial.role}</span>
+                </div>
+              </div>
+            )}
+          </For>
+        </div>
+      </section>
+
       {/* CTA Section */}
       <section class="cta-section">
         <div class="cta-content">
           <h2>Start creating today.</h2>
-          <p>Join thousands of producers who trust SampleVault for their sound design needs.</p>
+          <p>Join over 100,000 producers who trust SampleVault for their sound design needs.</p>
           <div class="hero-actions">
-            <a href="#packs" class="btn btn-primary btn-large">
-              Explore All Packs
+            <a href="/register" class="btn btn-primary btn-large">
+              Get Started Free
             </a>
-            <a href="/about" class="btn btn-secondary btn-large">
-              Contact Sales
+            <a href="#packs" class="btn btn-secondary btn-large">
+              Browse Packs
             </a>
           </div>
+          <p class="cta-note">✓ No credit card required • ✓ 3 free sample packs included</p>
         </div>
       </section>
     </main>

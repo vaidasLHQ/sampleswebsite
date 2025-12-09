@@ -311,3 +311,4 @@ INSERT INTO articles (title, slug, excerpt, content, cover_image, category, auth
 ('The 808 Deep Dive: Programming Bass That Hits Different', '808-programming-guide', 'Master the art of 808 programming with techniques used by Metro Boomin, Southside, and the biggest trap producers in the game.', 'Full content here...', 'https://images.unsplash.com/photo-1493225457124-a3eb161ffa5f?w=1200&h=600&fit=crop', 'Production', 'Jaylen Moore', 'https://images.unsplash.com/photo-1500648767791-00dcc994a43e?w=100&h=100&fit=crop', 7, false);
 `;
 
+
