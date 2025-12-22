@@ -14,14 +14,6 @@ function badRequest(message: string) {
   return new Response(message, { status: 400 });
 }
 
-function token(bytes = 24) {
-  const buf = new Uint8Array(bytes);
-  crypto.getRandomValues(buf);
-  return Array.from(buf)
-    .map((b) => b.toString(16).padStart(2, "0"))
-    .join("");
-}
-
 export async function POST({ request }: { request: Request }) {
   const origin = new URL(request.url).origin;
 
@@ -32,11 +24,13 @@ export async function POST({ request }: { request: Request }) {
     return badRequest("Invalid JSON");
   }
 
+  const userId = body?.userId ?? null;
   const email = String(body?.email ?? "").trim().toLowerCase();
   const items = (body?.items ?? []) as CartItem[];
-  const userId = body?.userId ?? null; // Optional: for linking to authenticated user
 
-  if (!email || !email.includes("@")) return badRequest("Email is required");
+  // Require authenticated user
+  if (!userId) return badRequest("Login required to checkout");
+  if (!email || !email.includes("@")) return badRequest("Invalid user email");
   if (!Array.isArray(items) || items.length === 0) return badRequest("Cart is empty");
 
   const sampleById = new Map(samples.map((s) => [s.id, s]));
@@ -51,23 +45,14 @@ export async function POST({ request }: { request: Request }) {
 
   const supabase = getSupabaseServer();
 
-  const downloadToken = token(24);
-
-  // Create order + items (pending)
-  const orderData: Record<string, any> = {
-    email,
-    status: "pending",
-    download_token: downloadToken,
-  };
-  
-  // Link to authenticated user if provided
-  if (userId) {
-    orderData.user_id = userId;
-  }
-  
+  // Create order linked to authenticated user (no download token needed)
   const { data: order, error: orderErr } = await supabase
     .from("orders")
-    .insert(orderData)
+    .insert({
+      user_id: userId,
+      email,
+      status: "pending",
+    })
     .select("id")
     .single();
 

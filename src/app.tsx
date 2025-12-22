@@ -83,10 +83,10 @@ export default function App() {
               
               <nav class={`nav ${mobileMenuOpen() ? 'mobile-open' : ''}`}>
                 <ul class="nav-links">
-                  <li><a href="/" class="nav-link" onClick={() => setMobileMenuOpen(false)}>Packs</a></li>
+                  <li><a href="/" class="nav-link" onClick={() => setMobileMenuOpen(false)}>Home</a></li>
+                  <li><a href="/browse" class="nav-link" onClick={() => setMobileMenuOpen(false)}>Browse</a></li>
                   <li><a href="/articles" class="nav-link" onClick={() => setMobileMenuOpen(false)}>Articles</a></li>
                   <li><a href="/about" class="nav-link" onClick={() => setMobileMenuOpen(false)}>About</a></li>
-                  <li><a href="/about" class="nav-link" onClick={() => setMobileMenuOpen(false)}>Pricing</a></li>
                 </ul>
                 
                 <div class="nav-actions">
@@ -158,20 +158,18 @@ export default function App() {
                 <div class="footer-column">
                   <h4>Products</h4>
                   <ul>
-                    <li><a href="/">Sample Packs</a></li>
-                    <li><a href="/">Presets</a></li>
-                    <li><a href="/">MIDI Kits</a></li>
-                    <li><a href="/">Bundles</a></li>
+                    <li><a href="/browse">Browse Samples</a></li>
+                    <li><a href="/vault">My Vault</a></li>
+                    <li><a href="/cart">Cart</a></li>
                   </ul>
                 </div>
                 
                 <div class="footer-column">
                   <h4>Resources</h4>
                   <ul>
-                    <li><a href="/">Tutorials</a></li>
-                    <li><a href="/">Blog</a></li>
-                    <li><a href="/">FAQ</a></li>
-                    <li><a href="/">License</a></li>
+                    <li><a href="/articles">Articles</a></li>
+                    <li><a href="/faq">FAQ</a></li>
+                    <li><a href="/license">License</a></li>
                   </ul>
                 </div>
                 
@@ -179,17 +177,25 @@ export default function App() {
                   <h4>Company</h4>
                   <ul>
                     <li><a href="/about">About</a></li>
-                    <li><a href="/">Contact</a></li>
-                    <li><a href="/">Careers</a></li>
-                    <li><a href="/">Press</a></li>
+                    <li><a href="/contact">Contact</a></li>
+                  </ul>
+                </div>
+                
+                <div class="footer-column">
+                  <h4>Legal</h4>
+                  <ul>
+                    <li><a href="/privacy">Privacy Policy</a></li>
+                    <li><a href="/terms">Terms of Service</a></li>
                   </ul>
                 </div>
               </div>
             </div>
             
             <div class="footer-bottom">
-              <p>© 2024 TRNDFY. All rights reserved.</p>
-              <p>Privacy · Terms · Cookies</p>
+              <p>© 2024 UAB Coded. All rights reserved.</p>
+              <p class="footer-legal-links">
+                <a href="/privacy">Privacy</a> · <a href="/terms">Terms</a> · <a href="/license">License</a>
+              </p>
             </div>
           </footer>
         </MetaProvider>

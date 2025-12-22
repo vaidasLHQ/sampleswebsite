@@ -16,6 +16,7 @@ export default function Home() {
   const [volume, setVolume] = createSignal(80);
   const [showSortDropdown, setShowSortDropdown] = createSignal(false);
   const [isLoggedIn, setIsLoggedIn] = createSignal(false);
+  const [ownedSampleIds, setOwnedSampleIds] = createSignal<Set<number>>(new Set());
   const demo = useDemoPlayer();
   
   const sortOptions = [
@@ -77,6 +78,29 @@ export default function Home() {
     // Check if user is logged in
     const { data: { session } } = await supabase.auth.getSession();
     setIsLoggedIn(!!session?.user);
+    
+    // Fetch owned samples if logged in
+    if (session?.user) {
+      const { data, error } = await supabase
+        .from('orders')
+        .select(`
+          order_items (
+            sample_id
+          )
+        `)
+        .or(`user_id.eq.${session.user.id},email.eq.${session.user.email}`)
+        .eq('status', 'paid');
+      
+      if (!error && data) {
+        const ownedIds = new Set<number>();
+        data.forEach((order: any) => {
+          order.order_items?.forEach((item: any) => {
+            ownedIds.add(item.sample_id);
+          });
+        });
+        setOwnedSampleIds(ownedIds);
+      }
+    }
     
     // Preload audio files
     setTimeout(() => {
@@ -201,7 +225,7 @@ export default function Home() {
                 <a href={isLoggedIn() ? "/vault" : "/login"} class="v12-cta">
                   <span class="v12-cta-text">{isLoggedIn() ? "MY VAULT" : "ENTER THE VAULT"}</span>
                 </a>
-                <a href="#samples" class="v12-cta-secondary">
+                <a href="/browse" class="v12-cta-secondary">
                   <span>BROWSE SAMPLES</span>
                 </a>
               </div>
@@ -332,6 +356,7 @@ export default function Home() {
                       isPlaying={demo.playingSampleId() === sample.id}
                       isLoading={demo.loadingId() === sample.id}
                       isNew={sample.isNew}
+                      isOwned={ownedSampleIds().has(sample.id)}
                       onPlay={() => handleSamplePlay(sample.id)}
                     />
                   )}
@@ -343,7 +368,7 @@ export default function Home() {
                 <span class="v12-browser-note">
                   {filteredAndSortedSamples().length} samples in "{selectedCategory()}"
                 </span>
-                <a href="#" class="v12-view-all">
+                <a href="/browse" class="v12-view-all">
                   View All
                   <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                     <path d="M5 12h14M12 5l7 7-7 7"/>
@@ -421,7 +446,7 @@ export default function Home() {
             <a href="/register" class="v12-cta">
               <span class="v12-cta-text">GET STARTED FREE</span>
             </a>
-            <a href="#samples" class="v12-cta-secondary">
+            <a href="/browse" class="v12-cta-secondary">
               <span>BROWSE PACKS</span>
             </a>
           </div>

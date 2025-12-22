@@ -1,9 +1,9 @@
+import { Title } from "@solidjs/meta";
 import { For, Show, createMemo, createSignal, onMount } from "solid-js";
 import { useNavigate } from "@solidjs/router";
 import { samples } from "~/data/samples";
 import { useCart } from "~/lib/cart";
 import { supabase } from "~/lib/supabase";
-import SEO from "~/components/SEO";
 
 function formatUsd(cents: number) {
   return `$${(cents / 100).toFixed(2)}`;
@@ -84,12 +84,7 @@ export default function CartPage() {
 
   return (
     <main class="cart-page">
-      <SEO 
-        title="Shopping Cart"
-        description="Review your selected sample packs and proceed to checkout."
-        path="/cart"
-        noindex={true}
-      />
+      <Title>Cart - SampleVault</Title>
 
       <section class="cart-section">
         <div class="cart-container">

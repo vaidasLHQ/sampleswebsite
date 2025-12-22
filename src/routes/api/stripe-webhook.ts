@@ -1,6 +1,5 @@
 import { getSupabaseServer } from "~/lib/supabaseServer";
 import { getStripeWebhookSecret, verifyStripeWebhookSignature } from "~/lib/stripe";
-import { sendDownloadEmail } from "~/lib/email";
 
 function ok() {
   return new Response("ok", { status: 200 });
@@ -33,9 +32,6 @@ export async function POST({ request }: { request: Request }) {
 
   const session = event?.data?.object;
   const orderId = session?.metadata?.order_id as string | undefined;
-  const email = (session?.customer_details?.email || session?.customer_email) as
-    | string
-    | undefined;
 
   if (!orderId) return ok();
 
@@ -44,43 +40,16 @@ export async function POST({ request }: { request: Request }) {
   // Load order (idempotent)
   const { data: order, error: ordErr } = await supabase
     .from("orders")
-    .select("id, email, status, download_token, email_sent_at")
+    .select("id, status")
     .eq("id", orderId)
     .single();
 
   if (ordErr || !order) return ok();
 
   // Mark paid (if not already)
+  // Samples become available in user's Vault immediately - no email sent
   if (order.status !== "paid") {
     await supabase.from("orders").update({ status: "paid" }).eq("id", orderId);
-  }
-
-  // Email link once
-  if (order.email_sent_at) return ok();
-
-  const { count } = await supabase
-    .from("order_items")
-    .select("id", { count: "exact", head: true })
-    .eq("order_id", orderId);
-
-  const origin = new URL(request.url).origin;
-  const downloadUrl = `${origin}/download/${encodeURIComponent(order.download_token)}`;
-
-  try {
-    await sendDownloadEmail({
-      to: (order.email || email || "").trim(),
-      downloadUrl,
-      itemCount: count ?? 0,
-    });
-    await supabase
-      .from("orders")
-      .update({ email_sent_at: new Date().toISOString(), email_error: null })
-      .eq("id", orderId);
-  } catch (e: any) {
-    await supabase
-      .from("orders")
-      .update({ email_error: e?.message ?? "Email failed" })
-      .eq("id", orderId);
   }
 
   return ok();

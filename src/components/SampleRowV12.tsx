@@ -8,11 +8,12 @@ interface SampleRowV12Props {
   isPlaying?: boolean;
   isLoading?: boolean;
   isNew?: boolean;
+  isOwned?: boolean;
 }
 
 /**
  * V12 Enhanced Sample Row Component
- * Features: Duration display, NEW badges, Waveform preview, Cart integration
+ * Features: Duration display, NEW badges, Waveform preview, Cart integration, Owned badges
  */
 export default function SampleRowV12(props: SampleRowV12Props) {
   const cart = useCart();
@@ -26,6 +27,8 @@ export default function SampleRowV12(props: SampleRowV12Props) {
   const onAddToCart = (e: MouseEvent) => {
     e.preventDefault();
     e.stopPropagation();
+    // Don't add if already owned
+    if (props.isOwned) return;
     cart.addSample(props.sample.id, 1);
   };
 
@@ -109,31 +112,44 @@ export default function SampleRowV12(props: SampleRowV12Props) {
 
       {/* Actions */}
       <div class="v12-actions">
-        <div class="v12-price">${(props.sample.priceUsdCents / 100).toFixed(2)}</div>
-        <button
-          class={`v12-add-btn ${cart.isInCart(props.sample.id) ? "in-cart" : ""}`}
-          onClick={onAddToCart}
-          aria-label={cart.isInCart(props.sample.id) ? "In cart" : "Add to cart"}
-        >
-          <Show
-            when={!cart.isInCart(props.sample.id)}
-            fallback={
-              <>
+        <Show when={props.isOwned} fallback={
+          <>
+            <div class="v12-price">${(props.sample.priceUsdCents / 100).toFixed(2)}</div>
+            <button
+              class={`v12-add-btn ${cart.isInCart(props.sample.id) ? "in-cart" : ""}`}
+              onClick={onAddToCart}
+              aria-label={cart.isInCart(props.sample.id) ? "In cart" : "Add to cart"}
+            >
+              <Show
+                when={!cart.isInCart(props.sample.id)}
+                fallback={
+                  <>
+                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                      <polyline points="20 6 9 17 4 12" />
+                    </svg>
+                    <span>Added</span>
+                  </>
+                }
+              >
                 <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                  <polyline points="20 6 9 17 4 12" />
+                  <circle cx="9" cy="21" r="1" />
+                  <circle cx="20" cy="21" r="1" />
+                  <path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6" />
                 </svg>
-                <span>Added</span>
-              </>
-            }
-          >
+                <span>Add</span>
+              </Show>
+            </button>
+          </>
+        }>
+          <a href="/vault" class="v12-owned-btn">
             <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-              <circle cx="9" cy="21" r="1" />
-              <circle cx="20" cy="21" r="1" />
-              <path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6" />
+              <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/>
+              <polyline points="7 10 12 15 17 10"/>
+              <line x1="12" y1="15" x2="12" y2="3"/>
             </svg>
-            <span>Add</span>
-          </Show>
-        </button>
+            <span>Owned</span>
+          </a>
+        </Show>
       </div>
     </div>
   );

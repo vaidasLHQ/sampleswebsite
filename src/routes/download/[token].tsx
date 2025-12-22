@@ -1,53 +1,26 @@
 import { Title } from "@solidjs/meta";
-import { createResource, For, Show } from "solid-js";
-import { useParams } from "@solidjs/router";
+import { onMount } from "solid-js";
+import { useNavigate } from "@solidjs/router";
 
-type DownloadItem = {
-  filename: string;
-  url: string;
-};
-
+// Token-based downloads are deprecated
+// All downloads now happen through the authenticated Vault
 export default function DownloadPage() {
-  const params = useParams();
+  const navigate = useNavigate();
 
-  const [data] = createResource(async () => {
-    const res = await fetch(`/api/downloads?token=${encodeURIComponent(params.token)}`);
-    if (!res.ok) {
-      const txt = await res.text();
-      throw new Error(txt || "Invalid download link");
-    }
-    return (await res.json()) as { items: DownloadItem[] };
+  onMount(() => {
+    // Redirect to vault - users must be logged in to access downloads
+    navigate("/vault", { replace: true });
   });
 
   return (
     <main class="download-page">
-      <Title>Your downloads - TRNDFY</Title>
+      <Title>Downloads Moved - TRNDFY</Title>
 
       <section class="download-inner">
-        <h1>Your downloads</h1>
-
-        <Show when={data.loading}>
-          <p>Loading…</p>
-        </Show>
-
-        <Show when={data.error}>
-          <div class="download-error">
-            <p>{(data.error as any)?.message ?? "Invalid download link"}</p>
-          </div>
-        </Show>
-
-        <Show when={data()}>
-          <div class="download-list">
-            <For each={data()!.items}>
-              {(it) => (
-                <a class="download-item" href={it.url} rel="noopener">
-                  {it.filename}
-                </a>
-              )}
-            </For>
-          </div>
-          <p class="download-note">Links are time-limited and regenerated when you open this page.</p>
-        </Show>
+        <h1>Downloads Have Moved</h1>
+        <p>All your purchased samples are now available in your Vault.</p>
+        <p>Redirecting you now...</p>
+        <a href="/vault" class="btn btn-primary">Go to My Vault</a>
       </section>
     </main>
   );

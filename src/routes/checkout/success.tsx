@@ -1,36 +1,28 @@
 import { Title } from "@solidjs/meta";
-import { onMount, createSignal, Show } from "solid-js";
+import { onMount, createSignal } from "solid-js";
 import { useNavigate } from "@solidjs/router";
 import { useCart } from "~/lib/cart";
-import { supabase } from "~/lib/supabase";
 
 export default function CheckoutSuccess() {
   const cart = useCart();
   const navigate = useNavigate();
-  const [isLoggedIn, setIsLoggedIn] = createSignal(false);
   const [countdown, setCountdown] = createSignal(5);
 
-  onMount(async () => {
+  onMount(() => {
     // Clear the cart after successful payment
     cart.clear();
     
-    // Check if user is logged in
-    const { data: { session } } = await supabase.auth.getSession();
-    setIsLoggedIn(!!session?.user);
-    
-    // If logged in, countdown and redirect to vault
-    if (session?.user) {
-      const timer = setInterval(() => {
-        setCountdown(prev => {
-          if (prev <= 1) {
-            clearInterval(timer);
-            navigate("/vault", { replace: true });
-            return 0;
-          }
-          return prev - 1;
-        });
-      }, 1000);
-    }
+    // Countdown and redirect to vault
+    const timer = setInterval(() => {
+      setCountdown(prev => {
+        if (prev <= 1) {
+          clearInterval(timer);
+          navigate("/vault", { replace: true });
+          return 0;
+        }
+        return prev - 1;
+      });
+    }, 1000);
   });
 
   return (
@@ -46,36 +38,20 @@ export default function CheckoutSuccess() {
         
         <h1>Payment Successful!</h1>
         <p class="success-message">
-          Thank you for your purchase! Your samples are now available in your vault.
+          Thank you for your purchase! Your samples are now available in your Vault.
         </p>
         
-        <Show when={isLoggedIn()}>
-          <p class="redirect-notice">
-            Redirecting to your vault in <strong>{countdown()}</strong> seconds...
-          </p>
-        </Show>
+        <p class="redirect-notice">
+          Redirecting to your Vault in <strong>{countdown()}</strong> seconds...
+        </p>
         
         <div class="success-actions">
-          <Show when={isLoggedIn()} fallback={
-            <>
-              <p class="email-notice">
-                We've also sent a download link to your email.
-              </p>
-              <a class="btn btn-primary" href="/login">
-                Log in to access your vault
-              </a>
-              <a class="btn btn-secondary" href="/">
-                Continue browsing
-              </a>
-            </>
-          }>
-            <a class="btn btn-primary" href="/vault">
-              Go to My Vault Now
-            </a>
-            <a class="btn btn-secondary" href="/">
-              Browse more samples
-            </a>
-          </Show>
+          <a class="btn btn-primary" href="/vault">
+            Go to My Vault Now
+          </a>
+          <a class="btn btn-secondary" href="/">
+            Browse more samples
+          </a>
         </div>
       </section>
       
@@ -184,6 +160,10 @@ export default function CheckoutSuccess() {
         .success-actions .btn-secondary:hover {
           background: rgba(255,255,255,0.05);
           color: white;
+        }
+        
+        .email-notice {
+          display: none;
         }
       `}</style>
     </main>
