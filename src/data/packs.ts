@@ -157,7 +157,7 @@ export const features = [
 
 export const testimonials = [
   {
-    quote: "SampleVault has the cleanest drum samples I've ever used. Game changer.",
+    quote: "TRNDFY has the cleanest drum samples I've ever used. Game changer.",
     author: "DJ Premier",
     role: "Hip Hop Producer"
   },

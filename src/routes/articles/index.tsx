@@ -1,6 +1,6 @@
-import { Title } from "@solidjs/meta";
 import { createResource, For, Show } from "solid-js";
 import { getArticles, type Article } from "~/lib/articles";
+import SEO from "~/components/SEO";
 
 export default function Articles() {
   const [articles] = createResource(getArticles);
@@ -18,7 +18,12 @@ export default function Articles() {
 
   return (
     <main>
-      <Title>Articles - SampleVault</Title>
+      <SEO 
+        title="Music Production Articles & Tutorials"
+        description="Deep dives into music production, sound design, mixing techniques, and the music industry. Learn from professional producers and elevate your craft."
+        path="/articles"
+        keywords={["music production tutorials", "sound design tips", "mixing techniques", "producer tips", "sample pack tutorials"]}
+      />
       
       {/* Hero Header */}
       <section class="articles-hero">
@@ -40,78 +45,27 @@ export default function Articles() {
           <p>Loading articles...</p>
         </div>
       }>
-        {/* Featured Article - Full Width Showcase */}
-        <Show when={featuredArticle()}>
-          <section class="featured-article">
-            <a href={`/articles/${featuredArticle()!.slug}`} class="featured-link">
-              <div class="featured-image-container">
-                <img 
-                  src={featuredArticle()!.cover_image} 
-                  alt={featuredArticle()!.title}
-                  class="featured-image"
-                />
-                <div class="featured-overlay" />
-                <span class="featured-badge">Featured</span>
-              </div>
-              <div class="featured-content">
-                <div class="featured-meta">
-                  <span class="article-category">{featuredArticle()!.category}</span>
-                  <span class="article-dot">·</span>
-                  <span class="article-read-time">{featuredArticle()!.read_time} min read</span>
-                </div>
-                <h2 class="featured-title">{featuredArticle()!.title}</h2>
-                <p class="featured-excerpt">{featuredArticle()!.excerpt}</p>
-                <div class="featured-author">
-                  <img 
-                    src={featuredArticle()!.author_avatar} 
-                    alt={featuredArticle()!.author_name}
-                    class="author-avatar"
-                  />
-                  <div class="author-info">
-                    <span class="author-name">{featuredArticle()!.author_name}</span>
-                    <span class="article-date">{formatDate(featuredArticle()!.created_at)}</span>
-                  </div>
-                </div>
-              </div>
-            </a>
-          </section>
-        </Show>
-
-        {/* Articles Grid - Magazine Style */}
+        {/* Articles Grid - Two Column Horizontal Cards */}
         <section class="articles-grid-section">
-          <div class="articles-grid">
-            <For each={otherArticles()}>
-              {(article, index) => (
+          <div class="articles-grid-two-column">
+            <For each={articles()}>
+              {(article) => (
                 <a 
                   href={`/articles/${article.slug}`} 
-                  class={`article-card ${index() === 0 ? 'article-card-large' : ''}`}
+                  class="article-card-horizontal"
                 >
-                  <div class="article-image-container">
+                  <div class="article-image-wrapper">
                     <img 
                       src={article.cover_image} 
                       alt={article.title}
-                      class="article-image"
+                      class="article-image-horizontal"
                     />
-                    <div class="article-image-overlay" />
-                    <span class="article-category-tag">{article.category}</span>
                   </div>
-                  <div class="article-content">
-                    <div class="article-meta-row">
-                      <span class="article-read-time">{article.read_time} min read</span>
-                      <span class="article-date">{formatDate(article.created_at)}</span>
-                    </div>
-                    <h3 class="article-title">{article.title}</h3>
-                    <p class="article-excerpt">{article.excerpt}</p>
-                    <div class="article-author">
-                      <img 
-                        src={article.author_avatar} 
-                        alt={article.author_name}
-                        class="author-avatar-small"
-                      />
-                      <span class="author-name-small">{article.author_name}</span>
-                    </div>
+                  <div class="article-content-horizontal">
+                    <h3 class="article-title-horizontal">{article.title}</h3>
+                    <span class="article-badge">{article.category}</span>
+                    <p class="article-excerpt-horizontal">{article.excerpt}</p>
                   </div>
-                  <div class="article-hover-line" />
                 </a>
               )}
             </For>

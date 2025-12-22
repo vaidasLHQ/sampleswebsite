@@ -1,7 +1,7 @@
-import { Title } from "@solidjs/meta";
 import { createResource, Show } from "solid-js";
 import { useParams, A } from "@solidjs/router";
 import { getArticleBySlug } from "~/lib/articles";
+import SEO, { ArticleSchema, BreadcrumbSchema } from "~/components/SEO";
 
 export default function ArticleDetail() {
   const params = useParams();
@@ -34,7 +34,34 @@ export default function ArticleDetail() {
       </Show>
 
       <Show when={article()}>
-        <Title>{article()!.title} - SampleVault</Title>
+        {/* SEO Meta Tags */}
+        <SEO 
+          title={article()!.title}
+          description={article()!.excerpt}
+          path={`/articles/${article()!.slug}`}
+          image={article()!.cover_image}
+          type="article"
+          publishedTime={article()!.created_at}
+          author={article()!.author_name}
+          keywords={[article()!.category, "music production", "tutorial", "sample packs"]}
+        />
+        
+        {/* Article Schema */}
+        <ArticleSchema 
+          headline={article()!.title}
+          description={article()!.excerpt}
+          image={article()!.cover_image}
+          datePublished={article()!.created_at}
+          authorName={article()!.author_name}
+          url={`https://website-solidstart.pages.dev/articles/${article()!.slug}`}
+        />
+        
+        {/* Breadcrumb Schema */}
+        <BreadcrumbSchema items={[
+          { name: "Home", url: "https://website-solidstart.pages.dev" },
+          { name: "Articles", url: "https://website-solidstart.pages.dev/articles" },
+          { name: article()!.title, url: `https://website-solidstart.pages.dev/articles/${article()!.slug}` }
+        ]} />
         
         {/* Article Header */}
         <article class="article-detail">

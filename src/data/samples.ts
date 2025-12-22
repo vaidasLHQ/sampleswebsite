@@ -7,7 +7,32 @@ export interface Sample {
   artwork: string;
   bpm: number;
   key: string;
-  audioUrl?: string;
+  /**
+   * Duration in seconds
+   */
+  duration: number;
+  /**
+   * Whether this is a new/featured sample
+   */
+  isNew?: boolean;
+  /**
+   * Public demo/preview URL (low-bitrate). Points to Supabase public bucket.
+   */
+  previewUrl?: string;
+  /**
+   * Private full-quality storage path (Supabase Storage object key) used to generate signed download URLs after purchase.
+   * Example: "full/sample1.wav"
+   */
+  fullStoragePath: string;
+  /** Price per sample in USD cents */
+  priceUsdCents: number;
+}
+
+const SUPABASE_URL = "https://qborzulfzciqhjyfxcjz.supabase.co";
+const PREVIEW_BUCKET = "sample-previews";
+
+function previewUrl(sampleNum: number): string {
+  return `${SUPABASE_URL}/storage/v1/object/public/${PREVIEW_BUCKET}/previews/sample${sampleNum}.mp3`;
 }
 
 export const samples: Sample[] = [
@@ -21,7 +46,11 @@ export const samples: Sample[] = [
     artwork: "https://images.unsplash.com/photo-1611532736570-8e28e16c78b7?w=400&h=400&fit=crop",
     bpm: 90,
     key: "E min",
-    audioUrl: "/audio/sample1.mp3"
+    duration: 28,
+    isNew: true,
+    previewUrl: previewUrl(1),
+    fullStoragePath: "full/sample1.wav",
+    priceUsdCents: 299
   },
   {
     id: 2,
@@ -32,7 +61,11 @@ export const samples: Sample[] = [
     artwork: "https://images.unsplash.com/photo-1619983081563-430f63602796?w=400&h=400&fit=crop",
     bpm: 70,
     key: "C# min",
-    audioUrl: "/audio/sample2.mp3"
+    duration: 35,
+    isNew: true,
+    previewUrl: previewUrl(2),
+    fullStoragePath: "full/sample2.wav",
+    priceUsdCents: 299
   },
   {
     id: 3,
@@ -43,7 +76,10 @@ export const samples: Sample[] = [
     artwork: "https://images.unsplash.com/photo-1493225457124-a3eb161ffa5f?w=400&h=400&fit=crop",
     bpm: 87,
     key: "C# min",
-    audioUrl: "/audio/sample3.mp3"
+    duration: 22,
+    previewUrl: previewUrl(3),
+    fullStoragePath: "full/sample3.wav",
+    priceUsdCents: 299
   },
   
   // Trap samples
@@ -56,7 +92,11 @@ export const samples: Sample[] = [
     artwork: "https://images.unsplash.com/photo-1571330735066-03aaa9429d89?w=400&h=400&fit=crop",
     bpm: 140,
     key: "F min",
-    audioUrl: "/audio/sample4.mp3"
+    duration: 18,
+    isNew: true,
+    previewUrl: previewUrl(4),
+    fullStoragePath: "full/sample4.wav",
+    priceUsdCents: 299
   },
   {
     id: 5,
@@ -67,7 +107,10 @@ export const samples: Sample[] = [
     artwork: "https://images.unsplash.com/photo-1571330735066-03aaa9429d89?w=400&h=400&fit=crop",
     bpm: 150,
     key: "—",
-    audioUrl: "/audio/sample5.mp3"
+    duration: 8,
+    previewUrl: previewUrl(5),
+    fullStoragePath: "full/sample5.wav",
+    priceUsdCents: 299
   },
   {
     id: 6,
@@ -78,7 +121,10 @@ export const samples: Sample[] = [
     artwork: "https://images.unsplash.com/photo-1571330735066-03aaa9429d89?w=400&h=400&fit=crop",
     bpm: 138,
     key: "G min",
-    audioUrl: "/audio/sample6.mp3"
+    duration: 24,
+    previewUrl: previewUrl(6),
+    fullStoragePath: "full/sample6.wav",
+    priceUsdCents: 299
   },
 
   // Lo-Fi Hip Hop samples
@@ -91,7 +137,10 @@ export const samples: Sample[] = [
     artwork: "https://images.unsplash.com/photo-1558057395-a88eaf04fc0e?w=400&h=400&fit=crop",
     bpm: 85,
     key: "—",
-    audioUrl: "/audio/sample7.mp3"
+    duration: 45,
+    previewUrl: previewUrl(7),
+    fullStoragePath: "full/sample7.wav",
+    priceUsdCents: 299
   },
   {
     id: 8,
@@ -102,7 +151,10 @@ export const samples: Sample[] = [
     artwork: "https://images.unsplash.com/photo-1558057395-a88eaf04fc0e?w=400&h=400&fit=crop",
     bpm: 78,
     key: "D min",
-    audioUrl: "/audio/sample8.mp3"
+    duration: 32,
+    previewUrl: previewUrl(8),
+    fullStoragePath: "full/sample8.wav",
+    priceUsdCents: 299
   },
 
   // House samples
@@ -115,7 +167,10 @@ export const samples: Sample[] = [
     artwork: "https://images.unsplash.com/photo-1514525253161-7a46d19cd819?w=400&h=400&fit=crop",
     bpm: 125,
     key: "—",
-    audioUrl: "/audio/sample9.mp3"
+    duration: 4,
+    previewUrl: previewUrl(9),
+    fullStoragePath: "full/sample9.wav",
+    priceUsdCents: 299
   },
   {
     id: 10,
@@ -126,7 +181,11 @@ export const samples: Sample[] = [
     artwork: "https://images.unsplash.com/photo-1514525253161-7a46d19cd819?w=400&h=400&fit=crop",
     bpm: 125,
     key: "A min",
-    audioUrl: "/audio/sample10.mp3"
+    duration: 16,
+    isNew: true,
+    previewUrl: previewUrl(10),
+    fullStoragePath: "full/sample10.wav",
+    priceUsdCents: 299
   },
 
   // EDM samples
@@ -139,7 +198,10 @@ export const samples: Sample[] = [
     artwork: "https://images.unsplash.com/photo-1470225620780-dba8ba36b745?w=400&h=400&fit=crop",
     bpm: 150,
     key: "C maj",
-    audioUrl: "/audio/sample11.mp3"
+    duration: 20,
+    previewUrl: previewUrl(11),
+    fullStoragePath: "full/sample11.wav",
+    priceUsdCents: 299
   },
   {
     id: 12,
@@ -150,7 +212,10 @@ export const samples: Sample[] = [
     artwork: "https://images.unsplash.com/photo-1470225620780-dba8ba36b745?w=400&h=400&fit=crop",
     bpm: 128,
     key: "—",
-    audioUrl: "/audio/sample12.mp3"
+    duration: 30,
+    previewUrl: previewUrl(12),
+    fullStoragePath: "full/sample12.wav",
+    priceUsdCents: 299
   },
 
   // Ambient samples
@@ -163,7 +228,10 @@ export const samples: Sample[] = [
     artwork: "https://images.unsplash.com/photo-1518640467707-6811f4a6ab73?w=400&h=400&fit=crop",
     bpm: 0,
     key: "F maj",
-    audioUrl: "/audio/sample13.mp3"
+    duration: 60,
+    previewUrl: previewUrl(13),
+    fullStoragePath: "full/sample13.wav",
+    priceUsdCents: 299
   },
 
   // Synthwave samples
@@ -176,7 +244,11 @@ export const samples: Sample[] = [
     artwork: "https://images.unsplash.com/photo-1511379938547-c1f69419868d?w=400&h=400&fit=crop",
     bpm: 115,
     key: "E min",
-    audioUrl: "/audio/sample14.mp3"
+    duration: 25,
+    isNew: true,
+    previewUrl: previewUrl(14),
+    fullStoragePath: "full/sample14.wav",
+    priceUsdCents: 299
   },
 
   // Drums
@@ -189,7 +261,10 @@ export const samples: Sample[] = [
     artwork: "https://images.unsplash.com/photo-1571330735066-03aaa9429d89?w=400&h=400&fit=crop",
     bpm: 0,
     key: "—",
-    audioUrl: "/audio/sample15.mp3"
+    duration: 2,
+    previewUrl: previewUrl(15),
+    fullStoragePath: "full/sample15.wav",
+    priceUsdCents: 299
   },
 
   // Vocals
@@ -202,7 +277,10 @@ export const samples: Sample[] = [
     artwork: "https://images.unsplash.com/photo-1516280440614-37939bbacd81?w=400&h=400&fit=crop",
     bpm: 120,
     key: "C maj",
-    audioUrl: "/audio/sample16.mp3"
+    duration: 12,
+    previewUrl: previewUrl(16),
+    fullStoragePath: "full/sample16.wav",
+    priceUsdCents: 299
   },
 
   // Synths
@@ -215,7 +293,10 @@ export const samples: Sample[] = [
     artwork: "https://images.unsplash.com/photo-1563330232-57114bb0823c?w=400&h=400&fit=crop",
     bpm: 128,
     key: "A min",
-    audioUrl: "/audio/sample17.mp3"
+    duration: 18,
+    previewUrl: previewUrl(17),
+    fullStoragePath: "full/sample17.wav",
+    priceUsdCents: 299
   },
 
   // FX
@@ -228,7 +309,11 @@ export const samples: Sample[] = [
     artwork: "https://images.unsplash.com/photo-1598488035139-bdbb2231ce04?w=400&h=400&fit=crop",
     bpm: 0,
     key: "—",
-    audioUrl: "/audio/sample18.mp3"
+    duration: 16,
+    isNew: true,
+    previewUrl: previewUrl(18),
+    fullStoragePath: "full/sample18.wav",
+    priceUsdCents: 299
   }
 ];
 
@@ -248,4 +333,5 @@ export const sampleCategories = [
   "Ambient",
   "Synthwave"
 ];
+
 

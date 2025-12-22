@@ -181,7 +181,7 @@ The rights to the underlying composition. Owned by the songwriter/publisher.
 
 ## When You DON'T Need Clearance
 
-- Using royalty-free samples (like from SampleVault!)
+- Using royalty-free samples (like from TRNDFY!)
 - Creating your own sounds from scratch
 - Using samples from public domain works
 

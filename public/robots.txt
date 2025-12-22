@@ -1,0 +1,35 @@
+# TRNDFY Robots.txt
+# https://trndfy.com
+
+User-agent: *
+Allow: /
+
+# Disallow private/utility pages
+Disallow: /api/
+Disallow: /checkout/
+Disallow: /download/
+Disallow: /vault
+Disallow: /login
+Disallow: /register
+Disallow: /cart
+
+# Disallow development/test pages
+Disallow: /v1
+Disallow: /v2
+Disallow: /v3
+Disallow: /v4
+Disallow: /v5
+Disallow: /v6
+Disallow: /v7
+Disallow: /v8
+Disallow: /v9
+Disallow: /v10
+Disallow: /v11
+Disallow: /v12
+Disallow: /packs-c
+
+# Sitemap location
+Sitemap: https://website-solidstart.pages.dev/sitemap.xml
+
+# Crawl-delay suggestion (optional, not all bots respect this)
+Crawl-delay: 1

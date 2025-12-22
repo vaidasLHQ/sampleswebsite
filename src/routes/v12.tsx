@@ -1,21 +1,18 @@
+import { Title } from "@solidjs/meta";
 import { For, createSignal, onMount, Show } from "solid-js";
 import { isServer } from "solid-js/web";
 import SampleRowV12 from "~/components/SampleRowV12";
-import SEO, { OrganizationSchema, WebSiteSchema, FAQSchema } from "~/components/SEO";
 import { samples, sampleCategories } from "~/data/samples";
 import { features, testimonials } from "~/data/packs";
 import { useDemoPlayer, queuePreload, setGlobalVolume } from "~/lib/demoPlayer";
-import { supabase } from "~/lib/supabase";
 
-// MAIN HOMEPAGE - V12 Enhanced Split Layout
-// 60% Hero Left / 40% Sample Browser Right
+// V12 - Enhanced Split Layout with Artlist-inspired UI
 // Features: Duration, NEW badges, Favorites, Volume, Sort, Tags, Actions
-export default function Home() {
+export default function V12() {
   const [selectedCategory, setSelectedCategory] = createSignal("All");
   const [sortBy, setSortBy] = createSignal("newest");
   const [volume, setVolume] = createSignal(80);
   const [showSortDropdown, setShowSortDropdown] = createSignal(false);
-  const [isLoggedIn, setIsLoggedIn] = createSignal(false);
   const demo = useDemoPlayer();
   
   const sortOptions = [
@@ -70,15 +67,10 @@ export default function Home() {
     setGlobalVolume(newVolume / 100);
   };
   
-  // Check auth status and preload audio files after page renders
-  onMount(async () => {
+  // Preload audio files after page renders
+  onMount(() => {
     if (isServer) return;
     
-    // Check if user is logged in
-    const { data: { session } } = await supabase.auth.getSession();
-    setIsLoggedIn(!!session?.user);
-    
-    // Preload audio files
     setTimeout(() => {
       const visibleSamples = samples.slice(0, 8);
       queuePreload(visibleSamples);
@@ -90,40 +82,9 @@ export default function Home() {
     }, 500);
   });
 
-  // Homepage FAQ items for Schema
-  const homepageFAQ = [
-    {
-      question: "What are royalty-free sample packs?",
-      answer: "Royalty-free sample packs are audio files you can use in your music productions without paying ongoing royalties. Once purchased from TRNDFY, you can use them in commercial releases, streaming, and sync licensing without additional fees."
-    },
-    {
-      question: "Are TRNDFY samples cleared for commercial use?",
-      answer: "Yes! All TRNDFY sample packs are 100% royalty-free and cleared for commercial use. You can use them in songs you release on Spotify, Apple Music, YouTube, and any other platform."
-    },
-    {
-      question: "What DAWs are compatible with your samples?",
-      answer: "Our samples are provided in WAV format, which is compatible with all major DAWs including FL Studio, Ableton Live, Logic Pro, Pro Tools, Cubase, Studio One, and more."
-    },
-    {
-      question: "How do I download my purchased samples?",
-      answer: "After purchase, you'll receive instant access to download your samples. Simply log into your TRNDFY account and visit your Vault to download your files."
-    }
-  ];
-
   return (
     <main class="landing-v12">
-      {/* SEO Meta Tags */}
-      <SEO 
-        title="TRNDFY - Royalty Free Sample Packs of Trending Spotify Songs"
-        description="Download professional royalty-free sample packs inspired by trending Spotify hits. Hip hop, trap, house, EDM & more. Instant download, 100% cleared for commercial use."
-        path="/"
-        keywords={["sample packs", "royalty free samples", "music production", "hip hop samples", "trap samples", "spotify samples"]}
-      />
-      
-      {/* Schema.org Structured Data */}
-      <OrganizationSchema />
-      <WebSiteSchema />
-      <FAQSchema items={homepageFAQ} />
+      <Title>TRNDFY V12 - Enhanced Sample Browser</Title>
       
       <section class="v12-hero">
         {/* Industrial grid background */}
@@ -198,11 +159,11 @@ export default function Home() {
               </p>
               
               <div class="v12-cta-area">
-                <a href={isLoggedIn() ? "/vault" : "/login"} class="v12-cta">
-                  <span class="v12-cta-text">{isLoggedIn() ? "MY VAULT" : "ENTER THE VAULT"}</span>
+                <a href="#samples" class="v12-cta">
+                  <span class="v12-cta-text">ENTER THE VAULT</span>
                 </a>
-                <a href="#samples" class="v12-cta-secondary">
-                  <span>BROWSE SAMPLES</span>
+                <a href="/about" class="v12-cta-secondary">
+                  <span>HOW IT WORKS</span>
                 </a>
               </div>
               
@@ -431,3 +392,7 @@ export default function Home() {
     </main>
   );
 }
+
+
+
+

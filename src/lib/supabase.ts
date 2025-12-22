@@ -16,13 +16,16 @@ export const isSupabaseConfigured = !!supabaseAnonKey && supabaseAnonKey !== 'yo
 export const supabase = createClient(supabaseUrl, supabaseAnonKey || 'placeholder');
 
 // Auth helper functions
-export async function signUp(email: string, password: string) {
+export async function signUp(email: string, password: string, redirectUrl?: string) {
   if (!isSupabaseConfigured) {
     return { data: null, error: { message: 'Supabase is not configured. Please add your anon key to .env file.' } };
   }
   const { data, error } = await supabase.auth.signUp({
     email,
     password,
+    options: {
+      emailRedirectTo: redirectUrl || `${window.location.origin}/vault`,
+    },
   });
   return { data, error };
 }

@@ -1,9 +1,14 @@
-import { Title } from "@solidjs/meta";
+import SEO from "~/components/SEO";
 
 export default function About() {
   return (
     <main>
-      <Title>About - SampleVault</Title>
+      <SEO 
+        title="About TRNDFY - Premium Sample Packs by Grammy-Winning Producers"
+        description="Founded in 2020, TRNDFY creates high-quality royalty-free sample packs crafted by Grammy-winning producers. Our sounds power thousands of releases from underground tracks to Billboard hits."
+        path="/about"
+        keywords={["about trndfy", "music production company", "sample pack creators", "grammy winning producers"]}
+      />
       
       <section class="hero" style={{ "min-height": "auto", "padding-bottom": "var(--space-3xl)" }}>
         <div class="grid-pattern" />
@@ -28,7 +33,7 @@ export default function About() {
           
           <div style={{ "max-width": "700px", margin: "0 auto", "text-align": "center" }}>
             <p style={{ "margin-bottom": "var(--space-lg)", "font-size": "1.125rem" }}>
-              Founded in 2020, SampleVault was born from a simple frustration: finding 
+              Founded in 2020, TRNDFY was born from a simple frustration: finding 
               high-quality, truly usable samples was too hard. So we built what we wished existed.
             </p>
             
