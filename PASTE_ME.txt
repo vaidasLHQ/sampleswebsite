@@ -1,72 +1,58 @@
-SampleVault Project - Quick Context for New Chat
+# TRNDFY - Resume Context for New Chat
 
-📍 Location: /Users/vaidasbalciunas/Desktop/Sample/website_solidstart
-🌐 Live: https://website-solidstart.pages.dev
-📅 Last Updated: December 19, 2024
+## Project Overview
+TRNDFY is a premium royalty-free sample pack e-commerce website built with SolidStart + TypeScript.
 
-✅ CURRENT STATE:
-- V12 Homepage: Split layout (60% hero / 40% sample browser), dark theme, mobile responsive
-- E-commerce: Stripe checkout, Supabase database, Resend emails, download system
-- User Auth: Login/Register (V12-themed), Supabase Auth, email confirmation disabled
-- User Vault: Shows purchased samples, auto-updates after purchase, download functionality
-- Cart: Clears automatically after successful payment
-- Database: orders table with user_id, RLS policies enabled
+## Live Site
+https://website-solidstart.pages.dev
 
-🛠 TECH STACK:
-SolidJS + SolidStart + TypeScript | Howler.js | Supabase | Stripe | Resend | Cloudflare Pages
+## Tech Stack
+- **Framework**: SolidStart (SolidJS meta-framework)
+- **Language**: TypeScript
+- **Styling**: CSS (app.css)
+- **Database**: Supabase (auth + storage + orders)
+- **Payments**: Stripe
+- **Email**: Resend
+- **Audio**: Howler.js
+- **Deployment**: Cloudflare Pages
 
-📁 KEY FILES:
-- src/routes/index.tsx (V12 homepage)
-- src/routes/vault.tsx (user's purchased samples)
-- src/routes/cart.tsx (shopping cart)
-- src/routes/login.tsx, register.tsx (auth pages)
-- src/routes/api/checkout.ts (Stripe checkout)
-- src/routes/api/stripe-webhook.ts (payment processing)
-- src/lib/cart.ts (cart state)
-- src/lib/demoPlayer.ts (audio player)
-- src/app.css (all styles)
+## Current State (Dec 22, 2024)
+✅ TRNDFY branding complete with exact logo (dot + 3 bars + text)
+✅ Full SEO implementation (meta tags, Open Graph, Twitter Cards, Schema.org)
+✅ robots.txt and dynamic sitemap.xml
+✅ Dark theme with Splice-style sample browser
+✅ Homepage with hero + sample browser + features + testimonials + CTA
+✅ Working audio preview with Howler.js
+✅ Cart functionality with Stripe checkout
+✅ User authentication with Supabase
+✅ Articles/Blog section with SEO
 
-🔑 CONFIG:
-- Supabase: https://qborzulfzciqhjyfxcjz.supabase.co
-- Tables: orders, order_items
-- Storage: sample-previews (public), sample-full (private)
-- Auth: Email confirmation disabled (testing)
-- SMTP: Resend configured (sandbox: onboarding@resend.dev)
+## Key Files
+- `src/app.tsx` - Root layout with header/footer + TRNDFY logo
+- `src/routes/index.tsx` - Homepage (V12 design)
+- `src/components/SEO.tsx` - SEO component with Schema.org
+- `src/components/SampleRowV12.tsx` - Sample row component
+- `src/app.css` - All styles (~10K lines)
+- `src/data/samples.ts` - Sample data
+- `src/lib/cart.ts` - Cart state management
 
-🧪 TEST CREDENTIALS:
-- Demo Account: demo@samplevault.com / Demo2024!
-- Stripe Test Card: 4242 4242 4242 4242 / 12/34 / 123
-
-🚀 COMMANDS:
+## Commands
+```bash
 cd /Users/vaidasbalciunas/Desktop/Sample/website_solidstart
-npm run dev
-npm run build && npx wrangler pages deploy dist --commit-dirty=true
+npm run dev      # Start dev server (port 3000)
+npm run build    # Build for production
+npx wrangler pages deploy dist --project-name=website-solidstart  # Deploy
+```
 
-⚠️ BEFORE GOING LIVE:
-1. Verify Resend domain at https://resend.com/domains
-2. Update Supabase SMTP sender email to verified domain
-3. Enable email confirmation in Supabase Auth
-4. Switch to Stripe live keys
-5. Upload real audio files
+## Git Repository
+https://github.com/vaidasLHQ/sampleswebsite.git
 
-📊 DATABASE:
-- orders: id, email, user_id (uuid, nullable), status, stripe_session_id, download_token, created_at
-- order_items: id, order_id, sample_id, quantity, price_cents, created_at
-- RLS: Users can only view their own orders (by user_id or email)
+## What's Next (SEO Roadmap)
+1. Register Google Search Console & submit sitemap
+2. Register Google Analytics 4
+3. Create custom OG image (1200x630px)
+4. Add more content pages for keyword targeting
+5. Build backlinks
 
-🔄 PURCHASE FLOW:
-1. Add to cart (localStorage) → 2. Stripe checkout → 3. Order created with user_id → 4. Payment → 5. Webhook marks paid → 6. Cart clears → 7. Redirect to vault → 8. Samples appear in vault
-
-✅ WORKING FEATURES:
-- Homepage with audio player and sample browser
-- Shopping cart with persistence
-- Stripe checkout integration
-- User authentication (login/register)
-- User vault with purchased samples
-- Download system with signed URLs
-- Email delivery via Resend
-- Mobile responsive design
-
-Ready to continue! 🚀
-
-
+## Important Note
+Before going live with real customers, verify a domain in Resend (e.g., trndfy.com) and update Supabase SMTP sender email.
