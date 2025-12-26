@@ -57,10 +57,53 @@ export async function GET({ request }: APIEvent) {
   });
 
   urls.push({
+    loc: `${BASE_URL}/browse`,
+    lastmod: today,
+    changefreq: "daily",
+    priority: 0.9,
+  });
+
+  urls.push({
     loc: `${BASE_URL}/articles`,
     lastmod: today,
     changefreq: "weekly",
     priority: 0.8,
+  });
+
+  // Legal pages
+  urls.push({
+    loc: `${BASE_URL}/license`,
+    lastmod: today,
+    changefreq: "monthly",
+    priority: 0.5,
+  });
+
+  urls.push({
+    loc: `${BASE_URL}/terms`,
+    lastmod: today,
+    changefreq: "monthly",
+    priority: 0.4,
+  });
+
+  urls.push({
+    loc: `${BASE_URL}/privacy`,
+    lastmod: today,
+    changefreq: "monthly",
+    priority: 0.4,
+  });
+
+  urls.push({
+    loc: `${BASE_URL}/faq`,
+    lastmod: today,
+    changefreq: "weekly",
+    priority: 0.6,
+  });
+
+  urls.push({
+    loc: `${BASE_URL}/contact`,
+    lastmod: today,
+    changefreq: "monthly",
+    priority: 0.5,
   });
 
   // Category pages (these will be created - add them to sitemap for future)

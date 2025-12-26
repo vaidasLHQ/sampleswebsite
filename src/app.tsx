@@ -18,6 +18,15 @@ export default function App() {
   const cart = useCart();
 
   onMount(async () => {
+    // Add Ahrefs Web Analytics
+    if (typeof window !== 'undefined' && !document.querySelector('script[data-key="f+sJK6nOw6U7uHvQ9Rrbhw"]')) {
+      const ahrefsScript = document.createElement('script');
+      ahrefsScript.src = 'https://analytics.ahrefs.com/analytics.js';
+      ahrefsScript.setAttribute('data-key', 'f+sJK6nOw6U7uHvQ9Rrbhw');
+      ahrefsScript.async = true;
+      document.head.appendChild(ahrefsScript);
+    }
+
     // Get initial session
     const { data: { session } } = await supabase.auth.getSession();
     setUser(session?.user ?? null);

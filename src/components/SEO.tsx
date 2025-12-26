@@ -155,7 +155,7 @@ export function OrganizationSchema() {
         contactPoint: {
           "@type": "ContactPoint",
           contactType: "customer service",
-          email: "support@trndfy.com",
+          email: "vaidas@coded.ws",
         },
       }}
     />

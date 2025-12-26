@@ -1,6 +1,6 @@
-import { Title } from "@solidjs/meta";
 import { onMount, createSignal } from "solid-js";
 import { useNavigate } from "@solidjs/router";
+import SEO from "~/components/SEO";
 import { useCart } from "~/lib/cart";
 
 export default function CheckoutSuccess() {
@@ -27,7 +27,12 @@ export default function CheckoutSuccess() {
 
   return (
     <main class="checkout-result">
-      <Title>Payment Successful! - TRNDFY</Title>
+      <SEO 
+        title="Payment Successful!" 
+        description="Thank you for your purchase. Your samples are ready in your Vault."
+        path="/checkout/success"
+        noindex={true}
+      />
       <section class="checkout-result-inner">
         <div class="success-icon">
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
