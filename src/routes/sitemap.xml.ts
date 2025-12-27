@@ -106,35 +106,8 @@ export async function GET({ request }: APIEvent) {
     priority: 0.5,
   });
 
-  // Category pages (these will be created - add them to sitemap for future)
-  const categories = sampleCategories.filter(c => c !== "All");
-  for (const category of categories) {
-    const slug = category.toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/-+$/, "");
-    urls.push({
-      loc: `${BASE_URL}/sample-packs/${slug}`,
-      lastmod: today,
-      changefreq: "weekly",
-      priority: 0.8,
-    });
-  }
-
-  // Individual sample pack pages (when created)
-  const uniquePacks = new Map<number, typeof samples[0]>();
-  for (const sample of samples) {
-    if (!uniquePacks.has(sample.packId)) {
-      uniquePacks.set(sample.packId, sample);
-    }
-  }
-  
-  for (const [_, sample] of uniquePacks) {
-    const slug = sample.packName.toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/-+$/, "");
-    urls.push({
-      loc: `${BASE_URL}/sample-packs/${slug}`,
-      lastmod: today,
-      changefreq: "monthly",
-      priority: 0.7,
-    });
-  }
+  // NOTE: Category pages (/sample-packs/*) removed from sitemap
+  // They don't exist yet - add them back when pages are created
 
   // Articles
   const articles = getMockArticles();

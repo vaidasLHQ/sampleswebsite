@@ -1,11 +1,20 @@
-import { createResource, Show } from "solid-js";
+import { createResource, Show, Suspense } from "solid-js";
 import { useParams, A } from "@solidjs/router";
+import { Title, Meta } from "@solidjs/meta";
 import { getArticleBySlug } from "~/lib/articles";
 import SEO, { ArticleSchema, BreadcrumbSchema } from "~/components/SEO";
 
 export default function ArticleDetail() {
   const params = useParams();
   const [article] = createResource(() => params.slug, getArticleBySlug);
+  
+  // Format slug for default title (e.g., "808-programming-guide" -> "808 Programming Guide")
+  const defaultTitle = () => {
+    return params.slug
+      .split('-')
+      .map(word => word.charAt(0).toUpperCase() + word.slice(1))
+      .join(' ');
+  };
 
   const formatDate = (dateString: string) => {
     return new Date(dateString).toLocaleDateString('en-US', {
@@ -18,6 +27,12 @@ export default function ArticleDetail() {
 
   return (
     <main>
+      {/* Default SEO that renders immediately for crawlers */}
+      <Show when={!article()}>
+        <Title>{defaultTitle()} | TRNDFY</Title>
+        <Meta name="description" content={`Read our article about ${defaultTitle()}. Music production tips, tutorials, and insights from TRNDFY.`} />
+      </Show>
+
       <Show when={article.loading}>
         <div class="article-loading">
           <div class="loading-pulse" />
@@ -34,7 +49,7 @@ export default function ArticleDetail() {
       </Show>
 
       <Show when={article()}>
-        {/* SEO Meta Tags */}
+        {/* SEO Meta Tags - replaces default when article loads */}
         <SEO 
           title={article()!.title}
           description={article()!.excerpt}

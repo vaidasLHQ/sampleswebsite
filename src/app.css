@@ -12462,3 +12462,48 @@ button:disabled:hover {
   }
 }
 
+/* ============================================
+   404 NOT FOUND PAGE
+   ============================================ */
+.not-found-page {
+  min-height: calc(100vh - 200px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 4rem 2rem;
+}
+
+.not-found-content {
+  text-align: center;
+  max-width: 500px;
+}
+
+.not-found-icon {
+  margin-bottom: 2rem;
+  color: #ff3232;
+}
+
+.not-found-icon svg {
+  width: 80px;
+  height: 80px;
+}
+
+.not-found-content h1 {
+  font-size: 2.5rem;
+  margin-bottom: 1rem;
+  color: var(--color-text);
+}
+
+.not-found-content p {
+  font-size: 1.125rem;
+  color: var(--color-text-secondary);
+  margin-bottom: 2rem;
+}
+
+.not-found-actions {
+  display: flex;
+  gap: 1rem;
+  justify-content: center;
+  flex-wrap: wrap;
+}
+
