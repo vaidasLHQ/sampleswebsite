@@ -65,6 +65,28 @@ export async function getUser() {
   return { user, error };
 }
 
+// Password reset
+export async function resetPassword(email: string, redirectUrl?: string) {
+  if (!isSupabaseConfigured) {
+    return { data: null, error: { message: 'Supabase is not configured.' } };
+  }
+  const { data, error } = await supabase.auth.resetPasswordForEmail(email, {
+    redirectTo: redirectUrl || `${window.location.origin}/reset-password`,
+  });
+  return { data, error };
+}
+
+// Update password (after reset)
+export async function updatePassword(newPassword: string) {
+  if (!isSupabaseConfigured) {
+    return { data: null, error: { message: 'Supabase is not configured.' } };
+  }
+  const { data, error } = await supabase.auth.updateUser({
+    password: newPassword,
+  });
+  return { data, error };
+}
+
 // Auth state listener
 export function onAuthStateChange(callback: (event: string, session: any) => void) {
   return supabase.auth.onAuthStateChange(callback);
