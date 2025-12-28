@@ -296,6 +296,27 @@ export default function V15() {
           font-size: 0.65rem;
         }
         
+        /* V15: Red pulsing live dot */
+        .v15-live-dot {
+          width: 8px;
+          height: 8px;
+          background: #ff3232;
+          border-radius: 50%;
+          animation: v15-pulse-dot 1.5s ease-in-out infinite;
+          box-shadow: 0 0 8px #ff3232;
+        }
+        
+        @keyframes v15-pulse-dot {
+          0%, 100% { 
+            opacity: 1;
+            transform: scale(1);
+          }
+          50% { 
+            opacity: 0.5;
+            transform: scale(0.8);
+          }
+        }
+        
         /* V15: Responsive - stack on smaller screens */
         @media (max-width: 1200px) {
           .v15-layout .v12-split-container {
@@ -417,6 +438,7 @@ export default function V15() {
                   <span>Sample Library</span>
                 </div>
                 <div class="v12-browser-stats">
+                  <span class="v15-live-dot" />
                   <span class="v12-stat">
                     <span class="v12-stat-value">5,000+</span>
                     <span class="v12-stat-label">SAMPLES</span>
