@@ -296,25 +296,45 @@ export default function V15() {
           font-size: 0.65rem;
         }
         
-        /* V15: Red pulsing live dot */
+        /* V15: Red pulsing live dot - PROMINENT like V12 */
         .v15-live-dot {
-          width: 8px;
-          height: 8px;
-          background: #ff3232;
-          border-radius: 50%;
-          animation: v15-pulse-dot 1.5s ease-in-out infinite;
-          box-shadow: 0 0 8px #ff3232;
+          display: block !important;
+          width: 12px !important;
+          height: 12px !important;
+          min-width: 12px !important;
+          min-height: 12px !important;
+          background: #ff3232 !important;
+          border-radius: 50% !important;
+          animation: v15-pulse-dot 1s ease-in-out infinite !important;
+          box-shadow: 0 0 12px #ff3232, 0 0 24px rgba(255, 50, 50, 0.6) !important;
+          flex-shrink: 0 !important;
+          position: absolute !important;
+          top: 1.25rem !important;
+          left: 50% !important;
+          transform: translateX(-50%) !important;
         }
         
         @keyframes v15-pulse-dot {
           0%, 100% { 
             opacity: 1;
-            transform: scale(1);
+            box-shadow: 0 0 12px #ff3232, 0 0 24px rgba(255, 50, 50, 0.6);
           }
           50% { 
-            opacity: 0.5;
-            transform: scale(0.8);
+            opacity: 0.4;
+            box-shadow: 0 0 6px #ff3232, 0 0 12px rgba(255, 50, 50, 0.3);
           }
+        }
+        
+        /* Ensure browser header has position relative for the dot */
+        .v15-layout .v12-browser-header {
+          position: relative !important;
+        }
+        
+        /* Ensure browser stats uses flexbox with alignment */
+        .v15-layout .v12-browser-stats {
+          display: flex;
+          align-items: center;
+          gap: 0.5rem;
         }
         
         /* V15: Responsive - stack on smaller screens */
@@ -429,6 +449,8 @@ export default function V15() {
             <div class="v12-browser">
               {/* Browser Header */}
               <div class="v12-browser-header">
+                {/* Red pulsing live dot */}
+                <div class="v15-live-dot" />
                 <div class="v12-browser-title">
                   <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#ff3232" stroke-width="2">
                     <path d="M9 18V5l12-2v13"></path>
@@ -438,7 +460,6 @@ export default function V15() {
                   <span>Sample Library</span>
                 </div>
                 <div class="v12-browser-stats">
-                  <span class="v15-live-dot" />
                   <span class="v12-stat">
                     <span class="v12-stat-value">5,000+</span>
                     <span class="v12-stat-label">SAMPLES</span>
