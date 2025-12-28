@@ -10456,18 +10456,25 @@ button:disabled:hover {
 @media (max-width: 1024px) {
   .v12-split-container {
     grid-template-columns: 1fr;
+    max-height: none;
+    height: auto;
+    min-height: auto;
   }
   
   .v12-left {
     order: 1;
-    min-height: 60vh;
+    min-height: 70vh;
+    height: auto;
     border-right: none;
     border-bottom: 1px solid rgba(255,255,255,0.04);
+    overflow: visible;
   }
   
   .v12-right {
     order: 2;
-    min-height: 50vh;
+    min-height: auto;
+    height: auto;
+    overflow: visible;
   }
   
   .v12-kick-container {
@@ -10508,24 +10515,43 @@ button:disabled:hover {
   
   /* Hero Section - Full width stacked layout */
   .v12-split-container {
+    display: flex;
     flex-direction: column;
     min-height: auto;
+    max-height: none;
+    height: auto;
   }
   
   .v12-left {
     width: 100%;
-    min-height: 70vh;
+    min-height: auto;
+    height: auto;
     padding: 2rem 1.5rem 3rem;
     display: flex;
     flex-direction: column;
     justify-content: center;
     align-items: center;
     text-align: center;
+    overflow: visible;
   }
   
   .v12-right {
     width: 100%;
     padding: 0;
+    height: auto;
+    min-height: auto;
+    overflow: visible;
+  }
+  
+  /* Sample list - show all samples on mobile */
+  .v12-sample-list {
+    max-height: none;
+    overflow: visible;
+  }
+  
+  .v12-browser {
+    height: auto;
+    min-height: auto;
   }
   
   /* Hide decorative elements on mobile */
