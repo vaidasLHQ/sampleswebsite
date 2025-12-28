@@ -7,9 +7,9 @@ import { features, testimonials } from "~/data/packs";
 import { useDemoPlayer, queuePreload, setGlobalVolume } from "~/lib/demoPlayer";
 import { supabase } from "~/lib/supabase";
 
-// MAIN HOMEPAGE - V12 Enhanced Split Layout
-// 60% Hero Left / 40% Sample Browser Right
-// Features: Duration, NEW badges, Favorites, Volume, Sort, Tags, Actions
+// MAIN HOMEPAGE - V15 Final Release
+// 50/50 Split Layout with Full Titles
+// Updated: December 28, 2024
 export default function Home() {
   const [selectedCategory, setSelectedCategory] = createSignal("All");
   const [sortBy, setSortBy] = createSignal("newest");
@@ -135,19 +135,236 @@ export default function Home() {
   ];
 
   return (
-    <main class="landing-v12">
+    <main class="landing-v12 v15-layout">
       {/* SEO Meta Tags */}
       <SEO 
-        title="TRNDFY - Royalty Free Sample Packs of Trending Spotify Songs"
+        title="TRNDFY - Sample Packs of Trending Spotify Songs | Royalty Free"
         description="Download professional royalty-free sample packs inspired by trending Spotify hits. Hip hop, trap, house, EDM & more. Instant download, 100% cleared for commercial use."
         path="/"
-        keywords={["sample packs", "royalty free samples", "music production", "hip hop samples", "trap samples", "spotify samples"]}
       />
       
       {/* Schema.org Structured Data */}
       <OrganizationSchema />
       <WebSiteSchema />
       <FAQSchema items={homepageFAQ} />
+      
+      {/* V15 specific styles */}
+      <style>{`
+        /* V15: 50/50 Split Layout */
+        .v15-layout .v12-split-container {
+          grid-template-columns: 50% 50%;
+        }
+        
+        /* V15: Ensure left side content is compact */
+        .v15-layout .v12-left {
+          padding: 2rem;
+        }
+        
+        /* V15: Adjust hero content for narrower space */
+        .v15-layout .v12-title-top {
+          font-size: clamp(1rem, 2vw, 1.5rem);
+          letter-spacing: 6px;
+        }
+        
+        .v15-layout .v12-title-mid {
+          font-size: clamp(1.2rem, 2.5vw, 2rem);
+          letter-spacing: 3px;
+        }
+        
+        .v15-layout .v12-title-main {
+          font-size: clamp(2rem, 4vw, 3.5rem);
+        }
+        
+        /* V15: Wider sample row with full titles */
+        .v15-layout .sample-row-v12 {
+          grid-template-columns: 32px 32px minmax(140px, 1fr) 80px 50px 70px 95px;
+          gap: 0.5rem;
+          padding: 0.5rem 1rem;
+        }
+        
+        /* V15: Full title display */
+        .v15-layout .v12-info {
+          min-width: 140px;
+        }
+        
+        .v15-layout .v12-filename {
+          white-space: normal;
+          overflow: visible;
+          text-overflow: clip;
+          line-height: 1.3;
+          font-size: 0.75rem;
+        }
+        
+        .v15-layout .v12-pack-name {
+          font-size: 0.65rem;
+        }
+        
+        /* V15: Compact tags */
+        .v15-layout .v12-tags {
+          gap: 0.25rem;
+        }
+        
+        .v15-layout .v12-tag {
+          font-size: 0.6rem;
+          padding: 0.15rem 0.4rem;
+        }
+        
+        /* V15: Compact waveform */
+        .v15-layout .v12-waveform {
+          width: 70px;
+        }
+        
+        /* V15: Compact actions */
+        .v15-layout .v12-actions {
+          gap: 0.4rem;
+        }
+        
+        .v15-layout .v12-price {
+          font-size: 0.75rem;
+        }
+        
+        .v15-layout .v12-add-btn {
+          padding: 0.35rem 0.6rem;
+          font-size: 0.65rem;
+          gap: 0.25rem;
+        }
+        
+        .v15-layout .v12-add-btn svg {
+          width: 12px;
+          height: 12px;
+        }
+        
+        /* V15: Compact browser header */
+        .v15-layout .v12-browser-header {
+          padding: 0.75rem 1rem;
+        }
+        
+        .v15-layout .v12-browser-title {
+          font-size: 0.85rem;
+        }
+        
+        .v15-layout .v12-browser-title svg {
+          width: 16px;
+          height: 16px;
+        }
+        
+        /* V15: Compact category pills */
+        .v15-layout .v12-pill {
+          font-size: 0.65rem;
+          padding: 0.35rem 0.7rem;
+        }
+        
+        /* V15: Compact list header */
+        .v15-layout .v12-list-header {
+          grid-template-columns: 32px 32px minmax(140px, 1fr) 80px 50px 70px 95px;
+          gap: 0.5rem;
+          padding: 0.5rem 1rem;
+          font-size: 0.6rem;
+        }
+        
+        /* V15: Hide some elements to save space */
+        .v15-layout .v12-kick-container {
+          display: none;
+        }
+        
+        .v15-layout .v12-geo {
+          display: none;
+        }
+        
+        .v15-layout .v12-bpm {
+          top: 10px;
+          right: 10px;
+          font-size: 3rem;
+        }
+        
+        .v15-layout .v12-bpm-label {
+          font-size: 0.6rem;
+        }
+        
+        /* V15: Smaller CTA buttons */
+        .v15-layout .v12-cta,
+        .v15-layout .v12-cta-secondary {
+          padding: 0.75rem 1.5rem;
+          font-size: 0.75rem;
+        }
+        
+        /* V15: Footer info smaller */
+        .v15-layout .v12-footer-info {
+          font-size: 0.65rem;
+        }
+        
+        /* V15: Red pulsing live dot - PROMINENT */
+        .v15-live-dot {
+          display: block !important;
+          width: 12px !important;
+          height: 12px !important;
+          min-width: 12px !important;
+          min-height: 12px !important;
+          background: #ff3232 !important;
+          border-radius: 50% !important;
+          animation: v15-pulse-dot 1s ease-in-out infinite !important;
+          box-shadow: 0 0 12px #ff3232, 0 0 24px rgba(255, 50, 50, 0.6) !important;
+          flex-shrink: 0 !important;
+          position: absolute !important;
+          top: 1.25rem !important;
+          left: 50% !important;
+          transform: translateX(-50%) !important;
+        }
+        
+        @keyframes v15-pulse-dot {
+          0%, 100% { 
+            opacity: 1;
+            box-shadow: 0 0 12px #ff3232, 0 0 24px rgba(255, 50, 50, 0.6);
+          }
+          50% { 
+            opacity: 0.4;
+            box-shadow: 0 0 6px #ff3232, 0 0 12px rgba(255, 50, 50, 0.3);
+          }
+        }
+        
+        /* Ensure browser header has position relative for the dot */
+        .v15-layout .v12-browser-header {
+          position: relative !important;
+        }
+        
+        /* Ensure browser stats uses flexbox with alignment */
+        .v15-layout .v12-browser-stats {
+          display: flex;
+          align-items: center;
+          gap: 0.5rem;
+        }
+        
+        /* V15: Responsive - stack on smaller screens */
+        @media (max-width: 1200px) {
+          .v15-layout .v12-split-container {
+            grid-template-columns: 45% 55%;
+          }
+          
+          .v15-layout .sample-row-v12 {
+            grid-template-columns: 32px 32px minmax(120px, 1fr) 50px 80px;
+          }
+          
+          .v15-layout .v12-tags,
+          .v15-layout .v12-waveform {
+            display: none;
+          }
+          
+          .v15-layout .v12-list-header {
+            grid-template-columns: 32px 32px minmax(120px, 1fr) 50px 80px;
+          }
+          
+          .v15-layout .v12-col-tags,
+          .v15-layout .v12-col-waveform {
+            display: none;
+          }
+        }
+        
+        @media (max-width: 1024px) {
+          .v15-layout .v12-split-container {
+            grid-template-columns: 1fr;
+          }
+        }
+      `}</style>
       
       <section class="v12-hero">
         {/* Industrial grid background */}
@@ -167,27 +384,11 @@ export default function Home() {
         {/* Strobe flash */}
         <div class="v12-strobe" />
         
-        {/* Split Container: 60% Left / 40% Right */}
+        {/* Split Container: 50% Left / 50% Right */}
         <div class="v12-split-container">
           
-          {/* LEFT SIDE - Hero Content (60%) */}
+          {/* LEFT SIDE - Hero Content (50%) */}
           <div class="v12-left">
-            {/* Kick drum pulse circles */}
-            <div class="v12-kick-container">
-              <div class="v12-kick v12-kick-1" />
-              <div class="v12-kick v12-kick-2" />
-              <div class="v12-kick v12-kick-3" />
-              <div class="v12-kick-center" />
-            </div>
-            
-            {/* Geometric shapes */}
-            <div class="v12-geo v12-geo-1">
-              <div class="v12-geo-inner" />
-            </div>
-            <div class="v12-geo v12-geo-2">
-              <div class="v12-geo-inner" />
-            </div>
-            
             {/* BPM counter */}
             <div class="v12-bpm">
               <span class="v12-bpm-value">128</span>
@@ -240,11 +441,13 @@ export default function Home() {
             </div>
           </div>
           
-          {/* RIGHT SIDE - Enhanced Sample Browser (40%) */}
+          {/* RIGHT SIDE - Enhanced Sample Browser (50%) */}
           <div class="v12-right" id="samples">
             <div class="v12-browser">
               {/* Browser Header */}
               <div class="v12-browser-header">
+                {/* Red pulsing live dot */}
+                <div class="v15-live-dot" />
                 <div class="v12-browser-title">
                   <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#ff3232" stroke-width="2">
                     <path d="M9 18V5l12-2v13"></path>
