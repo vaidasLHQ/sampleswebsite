@@ -51,14 +51,20 @@ export default function Login() {
       
       <section class="auth-section-v12">
         <div class="auth-container-v12">
-          {/* Logo */}
+          {/* Logo - TRNDFY waveform bars */}
           <div class="auth-logo">
-            <div class="auth-logo-icon">
-              <svg width="32" height="32" viewBox="0 0 24 24" fill="none">
-                <path d="M12 3L20 7.5V16.5L12 21L4 16.5V7.5L12 3Z" fill="#ff3232"/>
-              </svg>
-            </div>
-            <span>TRNDFY</span>
+            <svg class="trndfy-logo-svg" viewBox="0 0 160 32" fill="none" xmlns="http://www.w3.org/2000/svg" style="height: 32px; width: auto;">
+              {/* Dot */}
+              <rect x="0" y="20" width="4" height="4" rx="1" fill="#ff3232"/>
+              {/* Short bar */}
+              <rect x="6" y="12" width="4" height="12" rx="1" fill="#ff3232"/>
+              {/* Tall bar */}
+              <rect x="12" y="4" width="4" height="20" rx="1" fill="#ff3232"/>
+              {/* Medium bar */}
+              <rect x="18" y="8" width="4" height="16" rx="1" fill="#ff3232"/>
+              {/* TRNDFY text */}
+              <text x="28" y="22" font-family="'Inter', 'Segoe UI', sans-serif" font-size="18" font-weight="700" fill="#ff3232">TRNDFY</text>
+            </svg>
           </div>
           
           <div class="auth-header-v12">
