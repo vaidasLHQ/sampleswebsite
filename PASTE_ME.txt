@@ -1,58 +1,44 @@
-# TRNDFY - Resume Context for New Chat
+Continue working on my SampleVault/TRNDFY project. Here's the current state:
 
-## Project Overview
-TRNDFY is a premium royalty-free sample pack e-commerce website built with SolidStart + TypeScript.
+**Project Location:** /Users/vaidasbalciunas/Desktop/Sample/website_solidstart
 
-## Live Site
-https://website-solidstart.pages.dev
+**Live URL:** https://website-solidstart.pages.dev
 
-## Tech Stack
-- **Framework**: SolidStart (SolidJS meta-framework)
-- **Language**: TypeScript
-- **Styling**: CSS (app.css)
-- **Database**: Supabase (auth + storage + orders)
-- **Payments**: Stripe
-- **Email**: Resend
-- **Audio**: Howler.js
-- **Deployment**: Cloudflare Pages
+**Tech Stack:**
+- SolidStart (SSR framework)
+- Cloudflare Pages (hosting)
+- Supabase (auth + database)
+- Stripe (payments - basic checkout, no Connect)
 
-## Current State (Dec 22, 2024)
-✅ TRNDFY branding complete with exact logo (dot + 3 bars + text)
-✅ Full SEO implementation (meta tags, Open Graph, Twitter Cards, Schema.org)
-✅ robots.txt and dynamic sitemap.xml
-✅ Dark theme with Splice-style sample browser
-✅ Homepage with hero + sample browser + features + testimonials + CTA
-✅ Working audio preview with Howler.js
-✅ Cart functionality with Stripe checkout
-✅ User authentication with Supabase
-✅ Articles/Blog section with SEO
+**Current Status:**
+✅ Website deployed and working
+✅ User authentication (login/register/forgot password)
+✅ Sample packs browsing and cart
+✅ Stripe checkout (basic - payments go to FrogDrip account)
+✅ Download system with tokens
+❌ Stripe Connect disabled (was causing issues in sandbox mode)
+⚠️ Email delivery: Currently using Resend sandbox (only delivers to vaidas@lithuaniahq.com)
 
-## Key Files
-- `src/app.tsx` - Root layout with header/footer + TRNDFY logo
-- `src/routes/index.tsx` - Homepage (V12 design)
-- `src/components/SEO.tsx` - SEO component with Schema.org
-- `src/components/SampleRowV12.tsx` - Sample row component
-- `src/app.css` - All styles (~10K lines)
-- `src/data/samples.ts` - Sample data
-- `src/lib/cart.ts` - Cart state management
+**Key Files:**
+- `src/routes/api/checkout.ts` - Stripe checkout endpoint
+- `src/routes/api/stripe-webhook.ts` - Webhook handler
+- `src/lib/serverEnv.ts` - Server environment variables
+- `src/lib/supabase.ts` - Supabase client
 
-## Commands
-```bash
-cd /Users/vaidasbalciunas/Desktop/Sample/website_solidstart
-npm run dev      # Start dev server (port 3000)
-npm run build    # Build for production
-npx wrangler pages deploy dist --project-name=website-solidstart  # Deploy
-```
+**Cloudflare Secrets Set:**
+- SUPABASE_URL, SUPABASE_ANON_KEY, SUPABASE_SERVICE_KEY
+- STRIPE_SECRET_KEY, STRIPE_PUBLISHABLE_KEY
+- STRIPE_CONNECTED_ACCOUNT_ID (empty - Connect disabled)
+- STRIPE_CLIENT_ID
 
-## Git Repository
-https://github.com/vaidasLHQ/sampleswebsite.git
+**Stripe Account:** FrogDrip (UAB Coded) - Test mode
 
-## What's Next (SEO Roadmap)
-1. Register Google Search Console & submit sitemap
-2. Register Google Analytics 4
-3. Create custom OG image (1200x630px)
-4. Add more content pages for keyword targeting
-5. Build backlinks
+**Before Going Live Checklist:**
+1. Verify domain in Resend (lithuaniahq.com)
+2. Update Supabase SMTP sender email from sandbox
+3. Complete Stripe business verification
+4. Switch Stripe to Live mode
+5. Update all Cloudflare secrets with live keys
 
-## Important Note
-Before going live with real customers, verify a domain in Resend (e.g., trndfy.com) and update Supabase SMTP sender email.
+Read PROJECT_CONTEXT.md for full details.
+
